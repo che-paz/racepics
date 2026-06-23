@@ -6,7 +6,7 @@ export const processPhoto = inngest.createFunction(
   {
     id: "process-photo",
     retries: 3,
-    concurrency: [{ limit: 15 }],
+    concurrency: [{ limit: 5 }],
     triggers: [{ event: "photo/uploaded" }],
     onFailure: async ({ event, error }) => {
       const original = event.data.event?.data as
