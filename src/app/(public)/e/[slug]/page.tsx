@@ -9,7 +9,9 @@ import {
   getEventBySlug,
   searchPhotosByBib,
 } from "@/lib/photos/bib-search";
-import { createPublicMetadata } from "@/lib/seo";
+import { getSharePhotoContext } from "@/lib/photos/share-metadata";
+import { buildPhotoShareText } from "@/lib/photos/share";
+import { appUrl, createPublicMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -18,8 +20,9 @@ type PageProps = {
   searchParams: Promise<{ bib?: string; photo?: string }>;
 };
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const { bib: bibParam, photo: photoParam } = await searchParams;
   const event = await getEventBySlug(slug);
 
   if (!event) {
@@ -28,6 +31,37 @@ export async function generateMetadata({ params }: PageProps) {
       description: "Este evento no existe o ya no está disponible.",
       path: `/e/${slug}`,
     });
+  }
+
+  const parsedBib = bibParam ? parseInt(bibParam, 10) : NaN;
+  const hasPhotoShare =
+    photoParam &&
+    !Number.isNaN(parsedBib) &&
+    parsedBib >= event.bib_min &&
+    parsedBib <= event.bib_max;
+
+  if (hasPhotoShare && event.status === "active") {
+    const shareContext = await getSharePhotoContext({
+      eventId: event.id,
+      eventSlug: slug,
+      eventName: event.name,
+      photoId: photoParam,
+      bib: parsedBib,
+    });
+
+    if (shareContext) {
+      const path = `/e/${slug}?bib=${parsedBib}&photo=${photoParam}`;
+      const title = `Dorsal ${parsedBib} — ${event.name}`;
+      const description = buildPhotoShareText(event.name, parsedBib);
+      const imageUrl = appUrl(`/api/photos/${photoParam}/og?bib=${parsedBib}`);
+
+      return createPublicMetadata({
+        title,
+        description,
+        path,
+        imageUrl,
+      });
+    }
   }
 
   return createPublicMetadata({

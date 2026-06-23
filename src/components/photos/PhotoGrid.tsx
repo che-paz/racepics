@@ -104,6 +104,7 @@ export default function PhotoGrid({
                   eventName={eventName}
                   bib={bib}
                   photoId={selected.id}
+                  onExternalShare={() => setSelected(null)}
                 />
               </div>
               <div className="flex shrink-0 justify-end border-t pt-3">

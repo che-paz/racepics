@@ -10,6 +10,7 @@ import {
   buildTwitterShareUrl,
   buildWhatsAppShareUrl,
   canUseNativeShare,
+  openSharePopup,
   shareNative,
 } from "@/lib/photos/share";
 
@@ -18,6 +19,7 @@ type PhotoShareButtonsProps = {
   eventName: string;
   bib: number;
   photoId: string;
+  onExternalShare?: () => void;
 };
 
 export default function PhotoShareButtons({
@@ -25,6 +27,7 @@ export default function PhotoShareButtons({
   eventName,
   bib,
   photoId,
+  onExternalShare,
 }: PhotoShareButtonsProps) {
   const [copied, setCopied] = useState(false);
   const [nativeShareAvailable] = useState(canUseNativeShare);
@@ -61,7 +64,7 @@ export default function PhotoShareButtons({
   };
 
   const openShareWindow = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer,width=600,height=500");
+    openSharePopup(url, onExternalShare);
   };
 
   return (

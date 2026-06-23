@@ -35,6 +35,27 @@ export function buildTwitterShareUrl(shareUrl: string, text: string): string {
   return `https://twitter.com/intent/tweet?${params.toString()}`;
 }
 
+export function openSharePopup(url: string, onBeforeOpen?: () => void): void {
+  onBeforeOpen?.();
+
+  // Dejar que el modal de la foto se cierre antes de abrir la ventana externa.
+  window.setTimeout(() => {
+    const popup = window.open(
+      url,
+      "racepics-share",
+      "popup=yes,width=720,height=640,menubar=no,toolbar=no,location=yes,status=no,resizable=yes,scrollbars=yes"
+    );
+
+    if (popup) {
+      popup.focus();
+      return;
+    }
+
+    // Fallback si el navegador bloquea popups.
+    window.open(url, "_blank");
+  }, 0);
+}
+
 export function canUseNativeShare(): boolean {
   return typeof navigator !== "undefined" && typeof navigator.share === "function";
 }

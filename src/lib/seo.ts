@@ -15,10 +15,12 @@ export function createPublicMetadata({
   title,
   description = DEFAULT_DESCRIPTION,
   path = "",
+  imageUrl,
 }: {
   title: string;
   description?: string;
   path?: string;
+  imageUrl?: string;
 }): Metadata {
   const url = appUrl(path);
 
@@ -32,11 +34,22 @@ export function createPublicMetadata({
       siteName: APP_NAME,
       locale: "es_ES",
       type: "website",
+      ...(imageUrl
+        ? {
+            images: [
+              {
+                url: imageUrl,
+                alt: title,
+              },
+            ],
+          }
+        : {}),
     },
     twitter: {
-      card: "summary_large_image",
+      card: imageUrl ? "summary_large_image" : "summary",
       title,
       description,
+      ...(imageUrl ? { images: [imageUrl] } : {}),
     },
   };
 }
