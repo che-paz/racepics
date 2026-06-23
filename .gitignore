@@ -27,6 +27,11 @@ yarn-error.log*
 
 # local env files
 .env*.local
+secrets/
+
+# credentials / test assets (no commitear)
+*-f623d1290d2c.json
+racepics-*.jpg
 
 # vercel
 .vercel
