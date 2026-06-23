@@ -15,8 +15,8 @@ export function buildPhotoShareUrl({
   return url.toString();
 }
 
-export function buildPhotoShareText(eventName: string, bib: number): string {
-  return `Mi foto del dorsal ${bib} en ${eventName}`;
+export function buildPhotoShareText(eventName: string): string {
+  return `Mis fotos de ${eventName}`;
 }
 
 export function buildWhatsAppShareUrl(shareUrl: string, text: string): string {

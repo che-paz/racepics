@@ -51,8 +51,8 @@ export async function generateMetadata({ params, searchParams }: PageProps) {
 
     if (shareContext) {
       const path = `/e/${slug}?bib=${parsedBib}&photo=${photoParam}`;
-      const title = `Dorsal ${parsedBib} — ${event.name}`;
-      const description = buildPhotoShareText(event.name, parsedBib);
+      const title = event.name;
+      const description = buildPhotoShareText(event.name);
       const imageUrl = appUrl(`/api/photos/${photoParam}/og?bib=${parsedBib}`);
 
       return createPublicMetadata({

@@ -43,7 +43,7 @@ export default function PhotoShareButtons({
     photoId,
     origin,
   });
-  const shareText = buildPhotoShareText(eventName, bib);
+  const shareText = buildPhotoShareText(eventName);
 
   const handleCopyLink = async () => {
     try {
@@ -57,7 +57,7 @@ export default function PhotoShareButtons({
 
   const handleNativeShare = async () => {
     await shareNative({
-      title: `${eventName} — dorsal ${bib}`,
+      title: eventName,
       text: shareText,
       url: shareUrl,
     });
