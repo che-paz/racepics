@@ -26,6 +26,8 @@ const montecristoDisplay = Oswald({
 });
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -158,7 +160,9 @@ export default async function EventPublicPage({
             description={
               event.status === "draft"
                 ? "El organizador debe activarlo en el panel antes de que los corredores puedan buscar fotos."
-                : "Este evento ya no está disponible."
+                : event.status === "archived"
+                  ? "Este evento ya no está disponible."
+                  : `Estado actual: ${event.status}. Si acabas de activarlo, recarga en unos segundos.`
             }
           />
         ) : (
