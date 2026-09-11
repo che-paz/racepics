@@ -7,11 +7,35 @@ import {
 } from "@/lib/auth/profile";
 
 const AUTH_ROUTES = ["/login", "/register"];
+const RATE_LIMIT_COOKIE = "rp_rl";
+const RATE_LIMIT_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 function redirectWithSession(url: URL, sessionResponse: NextResponse): NextResponse {
   const response = NextResponse.redirect(url);
   sessionResponse.cookies.getAll().forEach((cookie) => {
     response.cookies.set(cookie);
+  });
+  return response;
+}
+
+function ensureRateLimitCookie(
+  request: NextRequest,
+  response: NextResponse
+): NextResponse {
+  if (!request.nextUrl.pathname.startsWith("/e/")) {
+    return response;
+  }
+  if (request.cookies.get(RATE_LIMIT_COOKIE)?.value) {
+    return response;
+  }
+  const sid = crypto.randomUUID();
+  request.cookies.set(RATE_LIMIT_COOKIE, sid);
+  response.cookies.set(RATE_LIMIT_COOKIE, sid, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: RATE_LIMIT_COOKIE_MAX_AGE,
   });
   return response;
 }
@@ -52,7 +76,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return supabaseResponse;
+  return ensureRateLimitCookie(request, supabaseResponse);
 }
 
 export const config = {

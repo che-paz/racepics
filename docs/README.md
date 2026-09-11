@@ -18,9 +18,10 @@ Los fotógrafos suben miles de fotos. Los corredores buscan **su número de bib*
 ## Inicio rápido (chat nuevo)
 
 1. Lee este archivo
-2. Lee `decisiones-arquitectura.md` si tocas DB/auth/integraciones
-3. Lee la sección del sprint actual en `roadmap.md`
-4. Usa el prompt de `protocolo-sesiones.md`
+2. Si es el piloto EsquiTrail: lee **solo** `piloto-esquitrail.md` (fase activa)
+3. Lee `decisiones-arquitectura.md` si tocas DB/auth/integraciones
+4. Lee la sección del sprint actual en `roadmap.md`
+5. Usa el prompt de `protocolo-sesiones.md`
 
 ---
 
@@ -37,6 +38,7 @@ Los fotógrafos suben miles de fotos. Los corredores buscan **su número de bib*
 | **estrategia-tokens.md** | Optimizar sesiones Cursor | Tech Lead | Cambio de workflow | ¿Cuánto cabe en un chat? |
 | **protocolo-sesiones.md** | Prompt inicio + cierre de sesión | Tech Lead | Cambio de protocolo | ¿Qué prompt uso? ¿Cómo cierro? |
 | **go-to-market.md** | Carta de venta, pricing, objeciones, guion demo | Founder/ventas | Post Sprint 8 o cambio de pricing | ¿Cómo vendo? ¿Qué prometo en piloto? |
+| **piloto-esquitrail.md** | Fuente de verdad piloto Montecristo 2026 | Founder + Tech | Cada cierre de fase del piloto | ¿Qué fase toca? ¿Qué contratar? |
 
 ---
 
@@ -47,6 +49,7 @@ Los fotógrafos suben miles de fotos. Los corredores buscan **su número de bib*
 | `api-reference.md` | Al estabilizar endpoints |
 | `deployment.md` | ✅ Creado Sprint 6 — deploy Vercel + env vars |
 | `go-to-market.md` | ✅ Creado — estrategia comercial y guion ventas |
+| `piloto-esquitrail.md` | ✅ Creado 2026-09-11 — piloto EsquiTrail |
 | `runbook-ocr.md` | Tras primer evento real con fallos OCR |
 | `CHANGELOG.md` | Primera release |
 
@@ -56,13 +59,14 @@ Los fotógrafos suben miles de fotos. Los corredores buscan **su número de bib*
 
 | Campo | Valor |
 |-------|-------|
-| Fase | Desarrollo — Sprint 6 deploy prod pendiente |
-| Sprint | 6 — Deploy Vercel + smoke test (siguiente sesión) |
-| Repo | Next.js 14 · Supabase cloud · upload · OCR · galería · share · export 5k |
+| Fase | Piloto EsquiTrail — **fase D** (branding Montecristo; DNS aplazado) |
+| Sprint | Post Sprint 6 — escala ✅ · branding Montecristo en curso |
+| Repo | Next.js 14 · Supabase cloud healthy · upload · OCR · galería · share · export |
 | Dev local | `http://localhost:3002` + `npm run inngest:dev` (2 terminales) |
-| DB | Migraciones hasta `20250722` (aplicar `db push` antes del piloto) |
-| Modelo comercial | Evento piloto gratis → caso de éxito → Stripe (Sprint 9+) |
-| Próximo paso | Deploy Vercel prod — ver `docs/deployment.md` |
+| Prod | `https://racepics-seven.vercel.app` |
+| DB | Supabase RacePics healthy (+ `bib_search_attempts`) |
+| Modelo comercial | Piloto gratis → caso de éxito → Stripe (después) |
+| Próximo paso | Redeploy branding · crear evento slug `montecristo-2026` · fase E con organizadores |
 
 ---
 

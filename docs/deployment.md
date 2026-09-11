@@ -50,6 +50,8 @@ Configurar en Vercel → Project → Settings → Environment Variables.
 | `GOOGLE_CREDENTIALS_JSON` | Production, Preview | Contenido completo del JSON (inline, una línea) |
 | `INNGEST_EVENT_KEY` | Production | Desde dashboard Inngest |
 | `INNGEST_SIGNING_KEY` | Production | Desde dashboard Inngest |
+| `OCR_CONCURRENCY` | Production | Opcional; default `10`. Parallel OCR en Inngest |
+| `BIB_SEARCH_*` | Production | Opcional; ver `decisiones-arquitectura.md` |
 
 **No usar en prod:** `INNGEST_DEV=1` ni `GOOGLE_APPLICATION_CREDENTIALS` (ruta local).
 

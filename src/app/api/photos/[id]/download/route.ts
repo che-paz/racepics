@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { watermarkForEventSlug, getEventBrand } from "@/lib/events/brands";
 import { applyWatermark } from "@/lib/photos/watermark";
 import { contentTypeFromFileName } from "@/lib/photos/storage-path";
 
@@ -32,7 +33,7 @@ export async function GET(request: Request, context: RouteContext) {
       storage_path,
       status,
       event_id,
-      events!inner (name, status),
+      events!inner (name, slug, status),
       photo_bibs!inner (bib_number)
     `
     )
@@ -71,14 +72,17 @@ export async function GET(request: Request, context: RouteContext) {
   }
 
   const buffer = Buffer.from(await fileData.arrayBuffer());
-  const watermarked = await applyWatermark(buffer, "RacePics");
+  const mark = watermarkForEventSlug(event.slug);
+  const watermarked = await applyWatermark(buffer, mark);
   const fileName = photo.storage_path.split("/").pop() ?? `${id}.jpg`;
   const contentType = contentTypeFromFileName(fileName);
+  const brand = getEventBrand(event.slug);
+  const downloadPrefix = brand ? brand.slug.split("-")[0] : "racepics";
 
   return new NextResponse(new Uint8Array(watermarked), {
     headers: {
       "Content-Type": contentType,
-      "Content-Disposition": `attachment; filename="racepics-${bibNumber}-${fileName}"`,
+      "Content-Disposition": `attachment; filename="${downloadPrefix}-${bibNumber}-${fileName}"`,
       "Cache-Control": "private, no-store",
     },
   });

@@ -54,6 +54,12 @@ GOOGLE_APPLICATION_CREDENTIALS=    # JSON service account (local)
 # Inngest
 INNGEST_EVENT_KEY=
 INNGEST_SIGNING_KEY=
+OCR_CONCURRENCY=10                 # parallel process-photo (default 10)
+
+# Rate limit búsqueda pública /e/[slug] (opcionales; defaults en código)
+# BIB_SEARCH_WINDOW_SECONDS=3600
+# BIB_SEARCH_MAX_DISTINCT=5
+# BIB_SEARCH_MAX_SAME=30
 
 # App
 NEXT_PUBLIC_APP_URL=               # https://racepics.app
@@ -144,6 +150,7 @@ events          → id, organizer_id, name, slug, date, status,
 event_photographers → event_id, photographer_id, invited_at
 photos          → id, event_id, photographer_id, storage_path, status, uploaded_at
 photo_bibs      → photo_id, bib_number (indexado para búsqueda)
+bib_search_attempts → event_id, client_key, bib_number, searched_at (rate limit)
 profiles        → id (= auth.users.id), role, display_name
 ```
 

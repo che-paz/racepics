@@ -1,0 +1,107 @@
+/* Paleta docs/colores_montecristo.png + fondo docs/montecristo_background.jpg */
+
+.brand-montecristo {
+  --mc-sand: #d6cdc1;
+  --mc-sand-deep: #c4b8a4;
+  --mc-brown: #7c6d57;
+  --mc-brown-soft: #8a7d6a;
+  --mc-ink: #3f362c;
+  --mc-card: #e8e1d6;
+  --mc-gold: #9a8558;
+
+  --background: var(--mc-sand);
+  --foreground: var(--mc-ink);
+  --card: var(--mc-card);
+  --card-foreground: var(--mc-ink);
+  --popover: var(--mc-card);
+  --popover-foreground: var(--mc-ink);
+  --primary: var(--mc-brown);
+  --primary-foreground: #f7f3ea;
+  --secondary: var(--mc-sand-deep);
+  --secondary-foreground: var(--mc-ink);
+  --muted: var(--mc-sand-deep);
+  --muted-foreground: var(--mc-brown-soft);
+  --accent: var(--mc-sand-deep);
+  --accent-foreground: var(--mc-ink);
+  --border: color-mix(in srgb, var(--mc-brown) 22%, transparent);
+  --input: color-mix(in srgb, var(--mc-brown) 22%, transparent);
+  --ring: var(--mc-gold);
+  --destructive: #9b3b2e;
+  --destructive-foreground: #f7f3ea;
+
+  background-color: var(--mc-sand);
+  background-image:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--mc-sand) 42%, transparent),
+      color-mix(in srgb, var(--mc-sand) 58%, transparent)
+    ),
+    url("/brands/montecristo-2026/background.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--mc-ink);
+  min-height: 100dvh;
+}
+
+.brand-montecristo .mc-logo-frame {
+  background: transparent;
+}
+
+.brand-montecristo .mc-search-card {
+  border-color: color-mix(in srgb, var(--mc-brown) 22%, transparent);
+  background: color-mix(in srgb, var(--mc-card) 88%, white);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--mc-ink) 10%, transparent);
+}
+
+.brand-montecristo .mc-search-card [data-slot="card-header"],
+.brand-montecristo .mc-search-card [data-slot="card-content"] {
+  text-align: center;
+}
+
+.brand-montecristo .mc-search-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .brand-montecristo .mc-search-form {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.brand-montecristo .mc-search-input {
+  width: 100%;
+  max-width: 18rem;
+  height: 2.75rem;
+  padding-inline: 1rem;
+  border-width: 1.5px;
+  border-color: color-mix(in srgb, var(--mc-brown) 28%, transparent);
+  background: color-mix(in srgb, white 70%, var(--mc-card));
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--mc-ink) 6%, transparent);
+}
+
+.brand-montecristo .mc-search-input:focus-visible {
+  border-color: var(--mc-gold);
+  outline: none;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--mc-gold) 28%, transparent),
+    inset 0 1px 2px color-mix(in srgb, var(--mc-ink) 6%, transparent);
+}
+
+.brand-montecristo .mc-display {
+  font-family: var(--font-montecristo-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .brand-montecristo {
+    background-attachment: scroll;
+  }
+}

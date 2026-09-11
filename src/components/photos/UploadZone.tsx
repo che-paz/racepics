@@ -66,7 +66,7 @@ export default function UploadZone({ eventId, eventName }: UploadZoneProps) {
         <CardHeader>
           <CardTitle>Arrastra tus fotos aquí</CardTitle>
           <CardDescription>
-            JPG, PNG o WebP · máx. 20 MB por archivo · hasta 5.000 fotos por evento
+            JPG, PNG o WebP · máx. 20 MB por archivo · hasta 10.000 fotos por evento
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

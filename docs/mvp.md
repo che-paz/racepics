@@ -97,6 +97,6 @@ ORGANIZADOR                          FOTÓGRAFO                         CORREDOR
 ## Límites técnicos MVP
 
 - Máx **1 organizador** y **1 fotógrafo** por evento
-- Máx **5,000 fotos** por evento (límite piloto / plan Pro)
+- Máx **10,000 fotos** por evento (límite piloto EsquiTrail / escala ~7k)
 - Formatos: JPG, PNG. Máx 15 MB/foto
 - **Sin pagos** — evento piloto 100% gratis; monetización después del caso de éxito

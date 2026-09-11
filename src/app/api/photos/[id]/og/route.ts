@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { watermarkForEventSlug } from "@/lib/events/brands";
 import { applyWatermark } from "@/lib/photos/watermark";
 import { contentTypeFromFileName } from "@/lib/photos/storage-path";
 
@@ -31,7 +32,7 @@ export async function GET(request: Request, context: RouteContext) {
       id,
       storage_path,
       status,
-      events!inner (name, status),
+      events!inner (name, slug, status),
       photo_bibs!inner (bib_number)
     `
     )
@@ -69,7 +70,8 @@ export async function GET(request: Request, context: RouteContext) {
   }
 
   const buffer = Buffer.from(await fileData.arrayBuffer());
-  const watermarked = await applyWatermark(buffer, "RacePics");
+  const mark = watermarkForEventSlug(event.slug);
+  const watermarked = await applyWatermark(buffer, mark);
   const fileName = photo.storage_path.split("/").pop() ?? `${id}.jpg`;
   const contentType = contentTypeFromFileName(fileName);
 

@@ -2,11 +2,19 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { inngest } from "@/lib/inngest/client";
 import { detectBibNumbers } from "@/lib/vision/ocr";
 
+/** Parallel OCR jobs. Override with OCR_CONCURRENCY (default 10 for ~7k batches). */
+function ocrConcurrencyLimit(): number {
+  const raw = process.env.OCR_CONCURRENCY;
+  const parsed = raw ? Number.parseInt(raw, 10) : 10;
+  if (!Number.isFinite(parsed) || parsed < 1) return 10;
+  return Math.min(parsed, 50);
+}
+
 export const processPhoto = inngest.createFunction(
   {
     id: "process-photo",
     retries: 3,
-    concurrency: [{ limit: 5 }],
+    concurrency: [{ limit: ocrConcurrencyLimit() }],
     triggers: [{ event: "photo/uploaded" }],
     onFailure: async ({ event, error }) => {
       const original = event.data.event?.data as

@@ -1,17 +1,29 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { Oswald } from "next/font/google";
 import { Lock } from "lucide-react";
 import BibSearch from "@/components/events/BibSearch";
+import EventBrandHeader from "@/components/events/EventBrandHeader";
 import PhotoGrid from "@/components/photos/PhotoGrid";
 import EmptyState from "@/components/shared/EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getEventBrand } from "@/lib/events/brands";
 import {
   getEventBySlug,
   searchPhotosByBib,
 } from "@/lib/photos/bib-search";
+import { enforceBibSearchRateLimit } from "@/lib/photos/bib-search-rate-limit";
 import { getSharePhotoContext } from "@/lib/photos/share-metadata";
 import { buildPhotoShareText } from "@/lib/photos/share";
 import { appUrl, createPublicMetadata } from "@/lib/seo";
+import "@/styles/brands/montecristo.css";
+
+const montecristoDisplay = Oswald({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-montecristo-display",
+  display: "swap",
+});
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +36,7 @@ export async function generateMetadata({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const { bib: bibParam, photo: photoParam } = await searchParams;
   const event = await getEventBySlug(slug);
+  const brand = getEventBrand(slug);
 
   if (!event) {
     return createPublicMetadata({
@@ -65,7 +78,7 @@ export async function generateMetadata({ params, searchParams }: PageProps) {
   }
 
   return createPublicMetadata({
-    title: `${event.name} — RacePics`,
+    title: brand ? event.name : `${event.name} — RacePics`,
     description: `Busca tu dorsal y descarga tus fotos de ${event.name}.`,
     path: `/e/${slug}`,
   });
@@ -83,10 +96,13 @@ export default async function EventPublicPage({
     notFound();
   }
 
+  const brand = getEventBrand(slug);
   const isPublic = event.status === "active";
 
   let bibNumber: number | null = null;
   let photos: Awaited<ReturnType<typeof searchPhotosByBib>> = [];
+  let rateLimitMessage: string | null = null;
+  let formBib: number | null = null;
 
   if (isPublic && bibParam) {
     const parsed = parseInt(bibParam, 10);
@@ -95,30 +111,44 @@ export default async function EventPublicPage({
       parsed >= event.bib_min &&
       parsed <= event.bib_max
     ) {
-      bibNumber = parsed;
-      photos = await searchPhotosByBib(event.id, parsed);
+      formBib = parsed;
+      const rate = await enforceBibSearchRateLimit(event.id, parsed);
+      if (!rate.allowed) {
+        rateLimitMessage = rate.message;
+      } else {
+        bibNumber = parsed;
+        photos = await searchPhotosByBib(event.id, parsed);
+      }
     }
   }
 
+  const shellClass = brand
+    ? `${brand.themeClass} ${montecristoDisplay.variable} min-h-screen`
+    : "min-h-screen bg-background";
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto max-w-4xl px-4 py-8">
-          <p className="text-sm text-muted-foreground">RacePics</p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight">
-            {event.name}
-          </h1>
-          {event.date ? (
-            <p className="mt-1 text-sm text-muted-foreground">
-              {new Date(event.date).toLocaleDateString("es-ES", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </p>
-          ) : null}
-        </div>
-      </header>
+    <div className={shellClass}>
+      {brand ? (
+        <EventBrandHeader brand={brand} />
+      ) : (
+        <header className="border-b">
+          <div className="mx-auto max-w-4xl px-4 py-8">
+            <p className="text-sm text-muted-foreground">RacePics</p>
+            <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+              {event.name}
+            </h1>
+            {event.date ? (
+              <p className="mt-1 text-sm text-muted-foreground">
+                {new Date(event.date).toLocaleDateString("es-ES", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            ) : null}
+          </div>
+        </header>
+      )}
 
       <main className="mx-auto max-w-4xl space-y-8 px-4 py-8">
         {!isPublic ? (
@@ -148,7 +178,9 @@ export default async function EventPublicPage({
               <BibSearch
                 bibMin={event.bib_min}
                 bibMax={event.bib_max}
-                initialBib={bibNumber}
+                initialBib={formBib}
+                rateLimitMessage={rateLimitMessage}
+                variant={brand ? "branded" : "default"}
               />
             </Suspense>
 
