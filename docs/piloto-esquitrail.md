@@ -30,7 +30,7 @@
 | Fecha | 27 de septiembre 2026 |
 | Lugar | Parque Chatún, Esquipulas, Guatemala |
 | Inscritos | ~265 |
-| Dorsales | **1–300** |
+| Dorsales | **1–400** (ampliado día D) |
 | Fotos estimadas | **~7.000** (límite app objetivo: **10.000**) |
 | Fotógrafos captura | 8 |
 | Quién sube a la app | 1 fotógrafo asignado |
@@ -213,6 +213,7 @@ Smoke prod **aprobado** 2026-09-11.
 | 2026-09-11 | D | Branding `/e/montecristo-2026`: logo, paleta beige/marrón (`colores_montecristo`), Oswald, watermark `Montecristo 2026 - Esquitrail`. DNS aplazado. |
 | 2026-09-11 | E | ✅ Ensayo con organizadores OK: 100 fotos, OCR 86% con dorsal. |
 | 2026-09-27 | F | Día D: borradas las 100 fotos de ensayo del evento oficial. Galería sirve fotos directo de Supabase (`unoptimized`) para no agotar cupo de imágenes Vercel. **Bloqueante:** Supabase en plan Free (1 GB) → subir a Pro antes de cargar ~7k fotos. |
+| 2026-09-27 | F | ✅ Supabase Pro activo. Dorsales ampliados a 1–400. Listo para subida del fotógrafo. |
 
 ---
 
