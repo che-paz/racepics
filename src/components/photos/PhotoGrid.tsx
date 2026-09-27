@@ -70,6 +70,8 @@ export default function PhotoGrid({
               src={photo.thumbUrl}
               alt={`Foto dorsal ${bib}`}
               fill
+              unoptimized
+              loading="lazy"
               className="object-cover transition group-hover:scale-105"
               sizes="(max-width: 640px) 50vw, 25vw"
             />
@@ -94,6 +96,7 @@ export default function PhotoGrid({
                   src={selected.thumbUrl}
                   alt={`Foto dorsal ${bib}`}
                   fill
+                  unoptimized
                   className="object-contain"
                   sizes="90vw"
                 />

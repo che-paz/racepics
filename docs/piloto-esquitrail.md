@@ -211,6 +211,8 @@ Smoke prod **aprobado** 2026-09-11.
 | 2026-09-11 | C | Decisiones: ensayo 1k con planes actuales; prep 10k; rate limit bib; cosmética EsquiTrail aplazada. |
 | 2026-09-11 | C | ✅ Código: `MAX_PHOTOS` 10k · `OCR_CONCURRENCY` default 10 · rate limit bib (migración + UI). Siguiente: fase E ensayo ~1k. |
 | 2026-09-11 | D | Branding `/e/montecristo-2026`: logo, paleta beige/marrón (`colores_montecristo`), Oswald, watermark `Montecristo 2026 - Esquitrail`. DNS aplazado. |
+| 2026-09-11 | E | ✅ Ensayo con organizadores OK: 100 fotos, OCR 86% con dorsal. |
+| 2026-09-27 | F | Día D: borradas las 100 fotos de ensayo del evento oficial. Galería sirve fotos directo de Supabase (`unoptimized`) para no agotar cupo de imágenes Vercel. **Bloqueante:** Supabase en plan Free (1 GB) → subir a Pro antes de cargar ~7k fotos. |
 
 ---
 
