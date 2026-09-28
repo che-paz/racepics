@@ -1,5 +1,9 @@
 import { readFileSync } from "node:fs";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
+import sharp from "sharp";
+
+/** Vision rejects files >20 MB and full-size camera JPGs make each call slow. */
+const OCR_MAX_DIMENSION = 2048;
 
 type ServiceAccountCredentials = {
   project_id?: string;
@@ -106,12 +110,26 @@ export function preferReferenceDigitLength(
   return matchingLength.length > 0 ? matchingLength : bibs;
 }
 
+async function prepareImageForOcr(imageBuffer: Buffer): Promise<Buffer> {
+  return sharp(imageBuffer)
+    .rotate()
+    .resize({
+      width: OCR_MAX_DIMENSION,
+      height: OCR_MAX_DIMENSION,
+      fit: "inside",
+      withoutEnlargement: true,
+    })
+    .jpeg({ quality: 85 })
+    .toBuffer();
+}
+
 export async function detectTextFromImage(
   imageBuffer: Buffer
 ): Promise<string> {
   const visionClient = getVisionClient();
+  const content = await prepareImageForOcr(imageBuffer);
   const [result] = await visionClient.textDetection({
-    image: { content: imageBuffer },
+    image: { content },
   });
 
   return result.fullTextAnnotation?.text ?? "";
