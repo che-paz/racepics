@@ -214,6 +214,7 @@ Smoke prod **aprobado** 2026-09-11.
 | 2026-09-11 | E | ✅ Ensayo con organizadores OK: 100 fotos, OCR 86% con dorsal. |
 | 2026-09-27 | F | Día D: borradas las 100 fotos de ensayo del evento oficial. Galería sirve fotos directo de Supabase (`unoptimized`) para no agotar cupo de imágenes Vercel. **Bloqueante:** Supabase en plan Free (1 GB) → subir a Pro antes de cargar ~7k fotos. |
 | 2026-09-27 | F | ✅ Supabase Pro activo. Dorsales ampliados a 1–400. Listo para subida del fotógrafo. |
+| 2026-10-27 | F | Cierre: estadísticas en `docs/caso-exito-montecristo-2026.md`. Eventos archivados. Respaldo local de 3.564 fotos + `dorsales.csv` en `~/Desktop/RACEPICS-respaldo/montecristo-2026/`. Fotos borradas de Supabase (retención 2 meses cumplida). Pendiente manual: bajar Supabase a Free, desvincular facturación GCP, revisar plan Vercel. |
 
 ---
 
